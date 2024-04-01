@@ -1,6 +1,6 @@
 # Reference: https://github.com/username/repo_name
 
-from random import choice
+import random
 
 class ShapeMash:
     def __init__(self):
