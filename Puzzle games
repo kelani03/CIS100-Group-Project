@@ -1,0 +1,69 @@
+# Reference: https://github.com/username/repo_name
+
+import random
+
+class PuzzleGame:
+    def __init__(self):
+        self.score = 0
+
+    def play(self):
+        print("Welcome to Puzzle Game!")
+        while True:
+            print("\nMain Menu:")
+            print("1. Play Puzzle Game")
+            print("2. View Score")
+            print("3. Exit")
+
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                self.play_game()
+            elif choice == "2":
+                self.view_score()
+            elif choice == "3":
+                print("Thanks for playing!")
+                break
+            else:
+                print("Invalid choice. Please enter a valid option.")
+
+    def play_game(self):
+        print("\nStarting Puzzle Game...")
+        # Code for playing the puzzle game goes here
+        # Implement matching shapes in groups of 3
+        # Use random numbers for generating shapes
+
+        # Example: Generating random shapes
+        shapes = ['square', 'circle', 'triangle']
+        board = [[random.choice(shapes) for _ in range(5)] for _ in range(5)]
+
+        # Displaying board
+        print("Current Board:")
+        for row in board:
+            print(" ".join(row))
+
+        # Simulate game moves and calculate score
+        self.score += self.calculate_score(board)
+
+        print("Game Over!")
+        print("Your score for this round:", self.calculate_score(board))
+
+    def calculate_score(self, board):
+        # Calculate score based on game logic
+        # Example: Counting matched shapes
+        score = 0
+        # Logic for calculating score goes here
+        # Example: Counting matched shapes in rows and columns
+        for row in board:
+            for shape in set(row):
+                if row.count(shape) >= 3:
+                    score += 10
+
+        return score
+
+    def view_score(self):
+        print("\nYour current score:", self.score)
+
+
+if __name__ == "__main__":
+    game = PuzzleGame()
+    game.play()
