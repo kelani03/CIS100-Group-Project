@@ -1,69 +1,53 @@
 # Reference: https://github.com/username/repo_name
 
-import random
 
-class PuzzleGame:
-    def __init__(self):
-        self.score = 0
+random import choice
 
-    def play(self):
-        print("Welcome to Puzzle Game!")
-        while True:
-            print("\nMain Menu:")
-            print("1. Play Puzzle Game")
-            print("2. View Score")
-            print("3. Exit")
+def initialize_grid(board):
+    for i in range(8):
+        for j in range(8):
+            board[i][j] = choice(['q', 'r', 's', 'u', 't'])
 
-            choice = input("Enter your choice: ")
+def draw_board(board):
+    print("\n" + "-" * 34)
+    for i in range(7, -1, -1):
+        line_to_draw = ""
+        for j in range(8):
+            line_to_draw += f" | {board[i][j]}"
+        line_to_draw += " |"
+        print(line_to_draw)
+        print("-" * 34)
 
-            if choice == "1":
-                self.play_game()
-            elif choice == "2":
-                self.view_score()
-            elif choice == "3":
-                print("Thanks for playing!")
-                break
-            else:
-                print("Invalid choice. Please enter a valid option.")
+def get_move():
+    # Placeholder function for getting player input (e.g., mouse click or keyboard input)
+    input("Tap 'Play' to start Level 1: ")  # Prompt player to tap 'Play' to start
+    return "play"  # Return 'play' to indicate the start of the game
 
-    def play_game(self):
-        print("\nStarting Puzzle Game...")
-        # Code for playing the puzzle game goes here
-        # Implement matching shapes in groups of 3
-        # Use random numbers for generating shapes
+def update_board(board, move):
+    # Placeholder function for updating the board based on the player's move
+    pass
 
-        # Example: Generating random shapes
-        shapes = ['square', 'circle', 'triangle']
-        board = [[random.choice(shapes) for _ in range(5)] for _ in range(5)]
+def continue_game(score, goal_score):
+    # Placeholder function to determine if the game should continue based on score and goal score
+    return score < goal_score
 
-        # Displaying board
-        print("Current Board:")
-        for row in board:
-            print(" ".join(row))
+def main():
+    global score, turn, goal_score
+    score = 0
+    turn = 1
+    goal_score = 100
 
-        # Simulate game moves and calculate score
-        self.score += self.calculate_score(board)
+    print("Welcome to Shape Mash!")
+    while continue_game(score, goal_score):
+        print("\nLevel", turn)
+        board = [[0] * 8 for _ in range(8)]
+        initialize_grid(board)
 
-        print("Game Over!")
-        print("Your score for this round:", self.calculate_score(board))
-
-    def calculate_score(self, board):
-        # Calculate score based on game logic
-        # Example: Counting matched shapes
-        score = 0
-        # Logic for calculating score goes here
-        # Example: Counting matched shapes in rows and columns
-        for row in board:
-            for shape in set(row):
-                if row.count(shape) >= 3:
-                    score += 10
-
-        return score
-
-    def view_score(self):
-        print("\nYour current score:", self.score)
-
+        draw_board(board)
+        move = get_move()
+        update_board(board, move)
+        turn += 1
 
 if __name__ == "__main__":
-    game = PuzzleGame()
-    game.play()
+    main()
+
