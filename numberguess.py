@@ -34,7 +34,7 @@ def check_guess(guess, answer):
         return "Too high, guess again."
 
 #plays the game. returns the number of attempts it took for the user to guess the correct number
-def play_game(max_attempts):
+def play_number_game(max_attempts):
     attempts = 0
     won = False
 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     #play multiple games
     while True:
-        play_game(max_attempts)
+        play_number_game(max_attempts)
 
         #asks the user if they want to play again
         play_again = input("Do you want to play again? (yes/no): ").lower()
