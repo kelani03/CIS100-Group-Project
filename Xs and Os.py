@@ -36,19 +36,20 @@ def create_grid():
     return board
 
 
-
 def sym():
     # This function decides the gamers' symbols
-    symbol_1 = input("Gamer 1, do you want to be X or O? ")
-    if symbol_1 == "X":
-        symbol_2 = "O"
-        print("Gamer 2, you are O. ")
-    else:
-        symbol_2 = "X"
-        print("Gamer 2, you are X. ")
+    symbol_1 = input("Gamer 1, do you want to be X or O? ").upper()
+    while symbol_1 not in ['X', 'O']:
+        print("Invalid input. Please enter X or O.")
+        symbol_1 = input("Gamer 1, do you want to be X or O? ").upper()
+
+    symbol_2 = 'O' if symbol_1 == 'X' else 'X'
+    print(f"Gamer 2, you are {symbol_2}.")
     input("Press enter to continue.")
     print("\n")
     return (symbol_1, symbol_2)
+
+
 
 
 
@@ -198,7 +199,6 @@ def report(count, winner, symbol_1, symbol_2):
 
 # Call Main
 main()
-
 
 
 
