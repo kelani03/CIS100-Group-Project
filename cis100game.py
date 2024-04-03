@@ -1,5 +1,78 @@
 import random
 
+# Number Guessing Game Code
+# define range and maximum of attempts. as well as storing variables to keep track of the
+#user's score and the total number of games
+lower = 1
+upper = 50
+max_attempts = 5
+user_score = 0
+total_games = 0
+
+# generate answer
+def play_number_game():
+    global user_score, total_games
+    answer = random.randint(lower, upper)
+
+    # get user's response
+    def get_guess():
+        while True:
+            try:
+                guess = int(input(f"Guess the number between {lower} and {upper} : "))
+                if lower <= guess <= upper:
+                    return guess
+                else:
+                    print("Invalid input. Please re-enter.")
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
+
+    # answer validation
+    def check_guess(guess, answer):
+        if guess == answer:
+            return "Correct"
+        elif guess < answer:
+            return "Too low, guess again."
+        else:
+            return "Too high, guess again."
+
+    #plays the game. returns the number of attempts it took for the user to guess the correct number
+    attempts = 0
+    won = False
+
+    while attempts < max_attempts:
+        attempts += 1
+        guess = get_guess()
+        result = check_guess(guess, answer)
+
+        if result == "Correct":
+            print(f"Congratulations, you have guessed the number {answer} in {attempts} attempts!")
+            won = True
+            break
+        else:
+            print (f"{result}. Try again!")
+
+    if not won:
+            print(f"Sorry, you ran out of attempts! The secret number is {answer}.")
+    user_score += 1
+    total_games += 1
+
+    #asks the user if they want to play again
+    play_again = input("Do you want to play again? (yes/no): ").lower()
+    if play_again != "yes":
+        display_scores(user_score, total_games)
+        return
+
+    play_number_game()
+
+#displays the user's score and the average number of attempts it took the user to guess the answer
+def display_scores(user_score, total_games):
+    if total_games > 0:
+        avg_attempts = user_score/total_games
+    else:
+        print("You have not played any games yet.")
+        return
+    print (f"Your score is {user_score} out of {total_games} games. Average number of attempts it took you to guess the answer is {avg_attempts}.")
+
 def main_menu():
     while True:
         print("\nWelcome to the Game Menu!")
@@ -15,19 +88,15 @@ def main_menu():
             play_dice_game()
         elif choice == "2":
             print("Welcome to the Number Guessing Game!")
-            play_number_game(max_attempts)
+            play_number_game()
         elif choice == "3":
-            name = input("What is your name? ")
-            print(f"Good Luck ! {name}")
             play_hangman_game()
         elif choice == "4":
             print("Exiting the Game Menu. Goodbye!")
             break
         else:
             print("Invalid choice. Please try again.")
-
-if __name__ == "__main__":
-    main_menu()
+            
 # Dice Game Code
 class Player:
     # Initializing player's name and position
@@ -64,7 +133,7 @@ def play_dice_game():
             if roll % 2 == 0:  # If the roll is even
                 player.position += roll  # Increase player's position
                 print(f"{player.name}, your position has increased. You are at position: {player.position}")
-            else:   # If the roll is odd
+            else:  # If the roll is odd
                 player.position -= roll  # Decrease player's position
                 print(f"{player.name}, your position has decreased. You are at position: {player.position}")
 
@@ -83,13 +152,61 @@ def play_dice_game():
     print("\nFinal Positions:")
     for player in players:
         print(f"{player.name}: {player.position}")
-        
-# Number Guessing Game Code
-# ... (Number Guessing Game code remains the same) ...
+
 
 # Hangman Game Code
-# ... (Hangman Game code remains the same) ...
+def play_hangman_game():
+    name = input("What is your name? ")
+    print(f"Good Luck ! {name}")
+
+    words = ['rainbow', 'computer', 'science', 'programming',
+         'python', 'mathematics', 'player', 'condition',
+         'reverse', 'water', 'board', 'geeks']
+    
+    word = random.choice(words)
+    print("Guess the characters")
+    
+    guesses = ''
+    
+    turns = 12
+    
+    while turns > 0:
+        
+        failed = 0
+        
+        for char in word:
+            
+            if char in guesses:
+                print(char, end=" ")
+            
+            else:
+                print("_")
+                
+                failed += 1
+                
+                if failed == 0:
+                    print("You Win")
+                    
+                    print("The word is: ", word)
+                    break
+                
+                print()
+                guess = input("guess a character:")
+                guesses += guess
+                
+                if guess not in word:
+                    turns -= 1
+                    
+                    print("Wrong")
+                    print("You have", + turns, 'more guesses')
+                    
+                    if turns == 0:
+                        print("You Loose")
+ 
 
 
 # Shape Mash Game
 # ... (Shape Mash Game code goes here) ...
+
+if __name__ == "__main__":
+    main_menu()
