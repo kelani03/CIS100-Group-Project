@@ -11,7 +11,7 @@ class ShapeMash:
         self.score = 0
 
     def initialize_board(self):
-        return [[choice(self.shapes) for _ in range(self.board_size)] for _ in range(self.board_size)]
+        return [[random.choice(self.shapes) for _ in range(self.board_size)] for _ in range(self.board_size)]
 
     def draw_board(self, board):
         print("\n" + "-" * 34)
@@ -55,7 +55,7 @@ class ShapeMash:
 
     def update_board(self, board, matched_positions):
         for i, j in matched_positions:
-            board[i][j] = choice(self.shapes)
+            board[i][j] = random.choice(self.shapes)
             self.score += 10  # Increase score for each matched shape
         return board
 
