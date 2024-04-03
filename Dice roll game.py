@@ -1,58 +1,85 @@
 import random
-# Define the Player class
-class Player:
-     # Initializing player's name and position
-    def __init__(self, name):
-        self.name = name
-        self.position = 0
-        
-     # Method to roll the dice
-    def roll_dice(self):
-        diceRoll = random.randint(1, 6)  
-        return diceRoll
-# Define the game function
-def play_game():
-     # Get the number of players from user input
-    num_players = int(input("Enter the number of players: "))
-    
-     # Create Player objects with names entered by the user
-    players = [Player(input(f"Enter player {i+1}'s name: ")) for i in range(num_players)]
-    
-    winner = None  # Initialize the winner to None
 
-    # Game loop continue until we have a winner
-    while winner is None:
-         # Iterate through each player's turn
-        for player in players:
-            print(f"{player.name}, it's your turn")
-            input("Press enter to roll the dice")
-            roll = player.roll_dice()  # Roll the dice for the player
-            
-            print(f"{player.name} rolled a {roll}.")
+class ShapeMash:
+    def __init__(self):
+        self.board_size = 8
+        self.shapes = ['▲', '■', '★', '●']  # Unicode characters for triangle, square, star, circle
+        self.levels = 10
+        self.goal_score = 100
+        self.score = 0
 
-            # Update player's position based on the dice roll
-            if roll % 2 == 0:  # If the roll is even
-                player.position += roll  # Increase player's position
-                print(f"{player.name}, your position has increased. You are at position: {player.position}")
-            else:   # If the roll is odd
-                player.position -= roll  # Decrease player's position
-                print(f"{player.name}, your position has decreased. You are at position: {player.position}")
-                
-             # Check if the player has gone below 0
-            if player.position < 0:  
-                player.position = 0  
-                print(f"{player.name}, your position has fallen below 0. Your position has been corrected to: {player.position}")
-                
-            # Check if the player has won
-            if player.position >= 20:  
-                winner = player  
-                print(f"{player.name} is now on position {player.position}.\n")
-                print(f"Congratulations, {player.name}! You won the game.")
-                break  
-    
-    print("\nFinal Positions:")
-    for player in players:
-        print(f"{player.name}: {player.position}")
-# Call the game function to start the game
-play_game()
+    def initialize_board(self):
+        return [[random.choice(self.shapes) for _ in range(self.board_size)] for _ in range(self.board_size)]
+
+    def draw_board(self, board):
+        print("\n" + "-" * 34)
+        for row in board:
+            line_to_draw = " | ".join(row)
+            print("|", line_to_draw, "|")
+            print("-" * 34)
+
+    def get_move(self):
+        input("Tap 'Play' to start Level: ")
+        return "play"
+
+    def match_shapes(self, board):
+        matched_positions = set()
+        for i in range(self.board_size):
+            for j in range(self.board_size):
+                shape = board[i][j]
+                if shape == ' ':
+                    continue
+                # Check horizontally
+                count = 1
+                for k in range(j + 1, self.board_size):
+                    if board[i][k] == shape:
+                        count += 1
+                    else:
+                        break
+                if count >= 3:
+                    for k in range(j, j + count):
+                        matched_positions.add((i, k))
+                # Check vertically
+                count = 1
+                for k in range(i + 1, self.board_size):
+                    if board[k][j] == shape:
+                        count += 1
+                    else:
+                        break
+                if count >= 3:
+                    for k in range(i, i + count):
+                        matched_positions.add((k, j))
+        return matched_positions
+
+    def update_board(self, board, matched_positions):
+        for i, j in matched_positions:
+            board[i][j] = random.choice(self.shapes)
+            self.score += 10  # Increase score for each matched shape
+        return board
+
+    def continue_game(self):
+        return self.score < self.goal_score and self.levels > 0
+
+    def play_level(self):
+        print("\nLevel", 11 - self.levels)
+        board = self.initialize_board()
+        self.draw_board(board)
+        move = self.get_move()
+        matched_positions = self.match_shapes(board)
+        while matched_positions:
+            board = self.update_board(board, matched_positions)
+            self.draw_board(board)
+            matched_positions = self.match_shapes(board)
+        self.levels -= 1
+
+    def play(self):
+        print("Welcome to Shape Mash!")
+        while self.continue_game():
+            self.play_level()
+        print("Game Over! Your final score:", self.score)
+
+if __name__ == "__main__":
+    game = ShapeMash()
+    game.play()
+
 
