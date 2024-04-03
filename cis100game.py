@@ -84,7 +84,7 @@ def display_scores(user_score, total_games):
 
 def main_menu():
     while True:
-        print(Back.BLACK + Style.BRIGHT + Fore.WHITE + "--------------------------")
+        print(Style.BRIGHT + Fore.WHITE + "--------------------------")
         print(Style.BRIGHT + Fore.BLUE + "WELCOME TO THE GAME MENU!")
         print(Style.BRIGHT + Fore.WHITE + "--------------------------")
         print(Style.BRIGHT + Fore.BLUE + "1. Dice Game")
@@ -157,13 +157,13 @@ def play_dice_game():
                 print(f"{player.name}, your position has decreased. You are at position: {player.position}")
 
             # Check if the player has gone below 0
-            if player.position < 0:
-                player.position = 0
+            if player.position < 0:  # If player's position is negative
+                player.position = 0  # Set player's position to 0
                 print(f"{player.name}, your position has fallen below 0. Your position has been corrected to: {player.position}")
 
             # Check if the player has won
-            if player.position >= 20:
-                winner = player
+            if player.position >= 20: # If player's position is 20 or higher
+                winner = player  # Set the player as the winner
                 print(f"{player.name} is now on position {player.position}.\n")
                 print(f"Congratulations, {player.name}! You won the game.")
                 break
@@ -171,6 +171,8 @@ def play_dice_game():
     print("\nFinal Positions:")
     for player in players:
         print(f"{player.name}: {player.position}")
+        
+    main_menu()
 
 
 # Hangman Game Code
@@ -235,8 +237,8 @@ def play_hangman_game():
                     
                     if turns == 0:
                         print("You Loose")
+    main_menu()                       
  
-
 
 # Xs and Os Game
 def main():
