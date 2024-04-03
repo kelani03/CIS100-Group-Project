@@ -197,8 +197,7 @@ def report(count, winner, symbol_1, symbol_2):
     else:
         print("It's a draw ")
 
-# Call Main
-main()
+
 
 
 
